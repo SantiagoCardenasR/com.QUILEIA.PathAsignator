@@ -743,7 +743,7 @@ input.checkbox:checked:after {
 
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
-<title>Add Path | PathAsignator</title>
+<title>Search Path | PathAsignator</title>
 </head>
 <body>
 <header id="header" class="fixed-top ">
@@ -756,8 +756,8 @@ input.checkbox:checked:after {
       <nav class="nav-menu d-none d-lg-block">
         <ul>
           <li><a href="/">Inicio</a></li>
-          <li class="active"><a href="/officers">Agentes de tránsito</a></li>
-          <li><a href="/paths">Vías</a></li>
+          <li><a href="/officers">Agentes de tránsito</a></li>
+          <li class="active"><a href="/paths">Vías</a></li>
         </ul>
       </nav><!-- .nav-menu -->
     </div>
@@ -767,17 +767,13 @@ input.checkbox:checked:after {
   <section id="hero" class="d-flex align-items-center justify-content-center">
   	<div class="container">
   		<div class="Title_add_officer">
-  		<h2 style="padding-bottom:35px;"> Añadir Vía</h2>
+  		<h2 style="padding-bottom:35px;"> Buscar Reporte de Vía</h2>
   		</div>
   		<div class="main-agileinfo">
 			<div class="agileits-top">
-				<form action="/addPath" method="post">
+				<form action="/pathReport" method="post">
 					<input class="text" type="number" name="id_path" placeholder="Código de la vía" required="">
-					<input class="text" type="text" name="type_path" placeholder="Tipo de vía" required="">
-					<input class="text" type="text" name="str_or_kr" placeholder="¿Es calle o carrera?" required="">
-					<input class="text" type="number" name="number_path" placeholder="Número de la calle o Carrera" required="">
-					<input class="text" type="number" name="traffic_path" placeholder="Cantidad de trafico 0-100">
-					<input type="submit" value="AGREGAR">
+					<input type="submit" value="BUSCAR">
 				</form>
 			</div>
 		</div>

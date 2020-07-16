@@ -20,7 +20,7 @@
   <link href="../assets/css/style.css" rel="stylesheet">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta charset="UTF-8">
-<title>List of Officers | PathAsignator</title>
+<title>Record of Officer | PathAsignator</title>
 </head>
 <body>
 <header id="header" class="fixed-top ">
@@ -43,29 +43,21 @@
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex align-items-center justify-content-center">
   	<div class="container">
-  		<h2 style="margin-bottom: 35px;">Oficiales de tránsito en servicio</h2>                                                    
+  		<h2 style="margin-bottom: 35px;">Historial de asignación de vía por Agente</h2>                                                    
   		<div class="table-responsive">          
   			<table class="table" style="color: white;">
     			<thead>
       				<tr>
-        				<th>código</th>
-        				<th>Nombre</th>
-        				<th>Años de experiencia</th>
-        				<th>Codigo de secretaría de tránsito</th>
-        				<th>Id de la vía que se encuentra</th>
-        				<th>Editar</th>
-        				<th>Eliminar</th>
+        				<th>fecha</th>
+        				<th>Nombre del Agente</th>
+        				<th>Nombre de la calle o carrera</th>
       				</tr>
     			</thead>
     			<tbody>
-      				<tr th:each="officer : ${officers}">
-        				<td th:text="${officer.code}"></td>
-        				<td th:text="${officer.name}"></td>
-        				<td th:text="${officer.yearsOfExperience}"></td>
-        				<td th:text="${officer.transitSecretaryCode}"></td>
-        				<td th:text="${officer.actualPathId}"></td>
-        				<td><a th:href="@{/editOfficer(code=${officer.code},name=${officer.name},yoex=${officer.yearsOfExperience},tsc=${officer.transitSecretaryCode},actualPathId=${officer.actualPathId})}"><i class="fas fa-user-edit"></i></a></td>
-        				<td><a th:href="@{/deleteOfficer(id_officer=${officer.code})}"><i class="fas fa-user-minus"></i></a></td>
+      				<tr th:each="report : ${reports}">
+        				<td th:text="${report.date}"></td>
+        				<td th:text="${report.officerName}"></td>
+        				<td th:text="${report.pathName}"></td>
       				</tr>
     			</tbody>
   			</table>

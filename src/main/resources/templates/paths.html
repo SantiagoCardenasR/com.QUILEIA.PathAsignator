@@ -18,6 +18,7 @@
 
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta charset="UTF-8">
 <title>List of Paths | PathAsignator</title>
 </head>
@@ -52,15 +53,19 @@
         				<th>¿Es calle o carrera?</th>
         				<th>Número de calle o carrera</th>
         				<th>Tráfico</th>
+        				<th>Editar</th>
+        				<th>Eliminar</th>
       				</tr>
     			</thead>
     			<tbody>
       				<tr th:each="path : ${paths}">
-        				<td th:text="${path.id}">1</td>
-        				<td th:text="${path.type}">Anna</td>
-        				<td th:text="${path.isStreetOrKr}">Pitt</td>
-        				<td th:text="${path.number}">35</td>
-        				<td th:text="${path.traffic}">New York</td>
+        				<td th:text="${path.id}"></td>
+        				<td th:text="${path.type}"></td>
+        				<td th:text="${path.isStreetOrKr}"></td>
+        				<td th:text="${path.number}"></td>
+        				<td th:text="${path.traffic}"></td>
+        				<td><a th:href="@{/editPath(id_path=${path.id},type_path=${path.type},str_or_kr=${path.isStreetOrKr},number_path=${path.number},traffic_path=${path.traffic})}"><i class="fas fa-pencil-alt"></i></a></td>
+        				<td><a th:href="@{/deletePath(id_path=${path.id})}"><i class="fas fa-trash-alt"></i></a></td>
       				</tr>
     			</tbody>
   			</table>

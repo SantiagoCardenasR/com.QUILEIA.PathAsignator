@@ -743,7 +743,7 @@ input.checkbox:checked:after {
 
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
-<title>Add Path | PathAsignator</title>
+<title>Edit Officer | PathAsignator</title>
 </head>
 <body>
 <header id="header" class="fixed-top ">
@@ -767,17 +767,17 @@ input.checkbox:checked:after {
   <section id="hero" class="d-flex align-items-center justify-content-center">
   	<div class="container">
   		<div class="Title_add_officer">
-  		<h2 style="padding-bottom:35px;"> Añadir Vía</h2>
+  		<h2 style="padding-bottom:35px;">Editar Agente de tránsito</h2>
   		</div>
   		<div class="main-agileinfo">
 			<div class="agileits-top">
-				<form action="/addPath" method="post">
-					<input class="text" type="number" name="id_path" placeholder="Código de la vía" required="">
-					<input class="text" type="text" name="type_path" placeholder="Tipo de vía" required="">
-					<input class="text" type="text" name="str_or_kr" placeholder="¿Es calle o carrera?" required="">
-					<input class="text" type="number" name="number_path" placeholder="Número de la calle o Carrera" required="">
-					<input class="text" type="number" name="traffic_path" placeholder="Cantidad de trafico 0-100">
-					<input type="submit" value="AGREGAR">
+				<form action="/editOfficer" method="post">
+					<input class="text" th:value="${officer.code}" type="text" name="id_officer" placeholder="Código de Agente" required="">
+					<input class="text" th:value="${officer.name}" type="text" name="name_officer" placeholder="Nombre del agente" required="">
+					<input class="text" th:value="${officer.yearsOfExperience}" type="number" name="years_exp_officer" placeholder="Años de experiencia del agente" required="">
+					<input class="text" th:value="${officer.transitSecretaryCode}" type="text" name="TSC_officer" placeholder="Código de secretaría de tránsito" required="">
+					<input class="text" th:value="${officer.actualPathId}" type="number" name="id_path_officer" placeholder="Código de la vía a asginar">
+					<input type="submit" value="EDITAR">
 				</form>
 			</div>
 		</div>

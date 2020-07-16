@@ -767,17 +767,17 @@ input.checkbox:checked:after {
   <section id="hero" class="d-flex align-items-center justify-content-center">
   	<div class="container">
   		<div class="Title_add_officer">
-  		<h2 style="padding-bottom:35px;"> Añadir Vía</h2>
+  		<h2 style="padding-bottom:35px;">Editar Vía</h2>
   		</div>
   		<div class="main-agileinfo">
 			<div class="agileits-top">
-				<form action="/addPath" method="post">
-					<input class="text" type="number" name="id_path" placeholder="Código de la vía" required="">
-					<input class="text" type="text" name="type_path" placeholder="Tipo de vía" required="">
-					<input class="text" type="text" name="str_or_kr" placeholder="¿Es calle o carrera?" required="">
-					<input class="text" type="number" name="number_path" placeholder="Número de la calle o Carrera" required="">
-					<input class="text" type="number" name="traffic_path" placeholder="Cantidad de trafico 0-100">
-					<input type="submit" value="AGREGAR">
+				<form action="/editPath" method="post">
+					<input class="text" th:value="${path.id}" type="number" name="id_path" placeholder="Código de la vía" required="">
+					<input class="text" th:value="${path.type}" type="text" name="type_path" placeholder="Tipo de vía" required="">
+					<input class="text" th:value="${path.isStreetOrKr}" type="text" name="str_or_kr" placeholder="¿Es calle o carrera?" required="">
+					<input class="text" th:value="${path.number}" type="number" name="number_path" placeholder="Número de la calle o Carrera" required="">
+					<input class="text" th:value="${path.traffic}" type="number" name="traffic_path" placeholder="Cantidad de trafico 0-100">
+					<input type="submit" value="EDITAR">
 				</form>
 			</div>
 		</div>
