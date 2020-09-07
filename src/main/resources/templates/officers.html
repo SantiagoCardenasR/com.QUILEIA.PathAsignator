@@ -28,8 +28,6 @@
 
       <h1 class="logo"><a href="/">Path<span>Asignator</span></a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-
       <nav class="nav-menu d-none d-lg-block">
         <ul>
           <li><a href="/">Inicio</a></li>
@@ -48,23 +46,27 @@
   			<table class="table" style="color: white;">
     			<thead>
       				<tr>
-        				<th>código</th>
-        				<th>Nombre</th>
-        				<th>Años de experiencia</th>
-        				<th>Codigo de secretaría de tránsito</th>
-        				<th>Id de la vía que se encuentra</th>
-        				<th>Editar</th>
-        				<th>Eliminar</th>
+        				<th id="officers__code">código</th>
+        				<th id="officers__name">Nombre</th>
+        				<th id="officers__lastName">Apellido</th>
+        				<th id="officers__yoex">Años de experiencia</th>
+        				<th id="officers__tsc">Codigo de secretaría de tránsito</th>
+        				<th id="officers__idPath">Id de la vía que se encuentra</th>
+        				<th id="officers__changes">Número de cambios el día de hoy</th>
+        				<th id="officers__edit">Editar</th>
+        				<th id="officers__delete">Eliminar</th>
       				</tr>
     			</thead>
     			<tbody>
       				<tr th:each="officer : ${officers}">
         				<td th:text="${officer.code}"></td>
         				<td th:text="${officer.name}"></td>
+        				<td th:text="${officer.lastName}"></td>
         				<td th:text="${officer.yearsOfExperience}"></td>
         				<td th:text="${officer.transitSecretaryCode}"></td>
         				<td th:text="${officer.actualPathId}"></td>
-        				<td><a th:href="@{/editOfficer(code=${officer.code},name=${officer.name},yoex=${officer.yearsOfExperience},tsc=${officer.transitSecretaryCode},actualPathId=${officer.actualPathId})}"><i class="fas fa-user-edit"></i></a></td>
+        				<td th:text="${officer.assignations}"></td>
+        				<td><a th:href="@{/editOfficer(code=${officer.code},name=${officer.name},lastName=${officer.lastName},yoex=${officer.yearsOfExperience},tsc=${officer.transitSecretaryCode},actualPathId=${officer.actualPathId},numberOfChanges=${officer.assignations} )}"><i class="fas fa-user-edit"></i></a></td>
         				<td><a th:href="@{/deleteOfficer(id_officer=${officer.code})}"><i class="fas fa-user-minus"></i></a></td>
       				</tr>
     			</tbody>

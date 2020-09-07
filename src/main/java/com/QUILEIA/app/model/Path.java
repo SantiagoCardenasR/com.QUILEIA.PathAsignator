@@ -2,16 +2,12 @@ package com.QUILEIA.app.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "path")
-public class Path 
-{
+public class Path {
 	@Id
 	@Column(name = "cod_path")
 	private int id;
@@ -19,13 +15,11 @@ public class Path
 	private String isStreetOrKr;
 	private int number;
 	private int traffic; //The Traffic can take place between 0 and 100
-	//private Officer officerAsiganted;
 	
-	public Path()
-	{}
+	public Path() {
+	}
 	
-	public Path(int pId, String pType,String pIsStreetOrKr, int pNumber, int pTraffic)
-	{
+	public Path(int pId, String pType,String pIsStreetOrKr, int pNumber, int pTraffic) {
 		id = pId;
 		type = pType;
 		isStreetOrKr = pIsStreetOrKr;
@@ -33,66 +27,54 @@ public class Path
 		traffic = pTraffic;
 	}
 	
-	public int getId() 
-	{
+	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) 
-	{
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public String getType() 
-	{
+	public String getType() {
 		return type;
 	}
 
-	public void setType(String type) 
-	{
+	public void setType(String type) {
 		this.type = type;
 	}
 
-	public String getIsStreetOrKr() 
-	{
+	public String getIsStreetOrKr() {
 		return isStreetOrKr;
 	}
 
-	public void setIsStreetOrKr(String isStreetOrKr) 
-	{
+	public void setIsStreetOrKr(String isStreetOrKr) {
 		this.isStreetOrKr = isStreetOrKr;
 	}
 
-	public int getNumber() 
-	{
+	public int getNumber() {
 		return number;
 	}
 
-	public void setNumber(int number) 
-	{
+	public void setNumber(int number) {
 		this.number = number;
 	}
 
-	public int getTraffic() 
-	{
+	public int getTraffic() {
 		return traffic;
 	}
 
-	public void setTraffic(int traffic) 
-	{
+	public void setTraffic(int traffic) {
 		this.traffic = traffic;
 	}
 
 	@Override
-	public String toString() 
-	{
+	public String toString() {
 		return "Path [id=" + id + ", type=" + type + ", isStreetOrKr=" + isStreetOrKr + ", number=" + number
 				+ ", traffic=" + traffic + "]";
 	}
 
 	@Override
-	public int hashCode() 
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + id;
@@ -100,8 +82,7 @@ public class Path
 	}
 
 	@Override
-	public boolean equals(Object obj) 
-	{
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -113,5 +94,4 @@ public class Path
 			return false;
 		return true;
 	}
-	
 }

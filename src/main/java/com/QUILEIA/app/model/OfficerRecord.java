@@ -1,15 +1,12 @@
 package com.QUILEIA.app.model;
 
-import java.sql.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class OfficerRecord 
-{
+public class OfficerRecord {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -19,8 +16,7 @@ public class OfficerRecord
 	private String officerId;
 	private int pathId;
 	
-	public OfficerRecord(String officerName, String pathName, String date, String officerId, int pathId)
-	{
+	public OfficerRecord(String officerName, String pathName, String date, String officerId, int pathId) {
 		super();
 		this.officerName = officerName;
 		this.pathName = pathName;
@@ -29,81 +25,66 @@ public class OfficerRecord
 		this.pathId = pathId;
 	}
 
-	public OfficerRecord()
-	{
+	public OfficerRecord() {
 	}
 
-	public Long getId() 
-	{
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) 
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
 	
-	public String getOfficerName() 
-	{
+	public String getOfficerName() {
 		return officerName;
 	}
 
-	public void setOfficerName(String officerName) 
-	{
+	public void setOfficerName(String officerName) {
 		this.officerName = officerName;
 	}
 
-	public String getPathName() 
-	{
+	public String getPathName() {
 		return pathName;
 	}
 
-	public void setPathName(String pathName) 
-	{
+	public void setPathName(String pathName) {
 		this.pathName = pathName;
 	}
 
-	public String getDate() 
-	{
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(String date) 
-	{
+	public void setDate(String date) {
 		this.date = date;
 	}
 
-	public String getOfficerId() 
-	{
+	public String getOfficerId() {
 		return officerId;
 	}
 
-	public void setOfficerId(String officerId) 
-	{
+	public void setOfficerId(String officerId) {
 		this.officerId = officerId;
 	}
 
-	public int getPathId() 
-	{
+	public int getPathId() {
 		return pathId;
 	}
 
-	public void setPathId(int pathId) 
-	{
+	public void setPathId(int pathId) {
 		this.pathId = pathId;
 	}
 	
 	@Override
-	public String toString() 
-	{
+	public String toString() {
 		return "OfficerRecord [id=" + id + ", officerName=" + officerName + ", pathName=" + pathName + ", date=" + date
 				+ ", officerId=" + officerId + ", pathId=" + pathId + "]";
 	}
 
 	@Override
-	public int hashCode() 
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
@@ -116,8 +97,7 @@ public class OfficerRecord
 	}
 
 	@Override
-	public boolean equals(Object obj) 
-	{
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)

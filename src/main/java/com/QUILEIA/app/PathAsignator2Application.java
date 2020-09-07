@@ -9,5 +9,4 @@ public class PathAsignator2Application {
 	public static void main(String[] args) {
 		SpringApplication.run(PathAsignator2Application.class, args);
 	}
-
 }
