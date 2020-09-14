@@ -53,7 +53,6 @@ public class OfficerServiceImpl implements OfficerService {
 		} else {
 			return false;
 		}
-		
 	}
 
 	@Override
@@ -72,7 +71,6 @@ public class OfficerServiceImpl implements OfficerService {
 						}
 				}
 			}
-			
 		});
 		
 		Officer actualOfficer = officersRepo.findById(pId).get();
@@ -100,5 +98,4 @@ public class OfficerServiceImpl implements OfficerService {
 	public void deleteOfficer(String pId) {
 		officersRepo.deleteById(pId);
 	}
-
 }

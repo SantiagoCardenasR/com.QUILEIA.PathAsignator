@@ -59,8 +59,7 @@
 		<dependency>
     		<groupId>com.microsoft.sqlserver</groupId>
     		<artifactId>mssql-jdbc</artifactId>
-    		</dependency>
-		
+    	</dependency>
 	</dependencies>
 
 	<build>
@@ -69,6 +68,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
 		</plugins>
 	</build>
 
