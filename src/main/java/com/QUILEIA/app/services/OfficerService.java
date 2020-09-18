@@ -9,7 +9,7 @@ public interface OfficerService {
 	
 	public boolean addOfficer(String pId, String pName,String pLastName, int pYoex, String pTsc, int pIdPath);
 	
-	public void editOfficer(String pId, String pName,String pLastName, int pYoex, String pTsc, int pIdPath);
+	public boolean editOfficer(String pId, String pName,String pLastName, int pYoex, String pTsc, int pIdPath);
 	
 	public void deleteOfficer(String pId);
 }

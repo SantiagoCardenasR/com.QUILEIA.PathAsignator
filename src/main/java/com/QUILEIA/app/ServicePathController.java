@@ -1,8 +1,13 @@
 package com.QUILEIA.app;
 
 
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.QUILEIA.app.model.Path;
 import com.QUILEIA.app.services.PathService;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class ServicePathController {
 	
@@ -26,18 +32,24 @@ public class ServicePathController {
 		return pathService.findAllPaths();
 	}
 	
-	@RequestMapping(value = "/addPath/{pId},{pTipoVia},{pStrOrKr},{pNumber},{pTraffic}", method = RequestMethod.POST)
-	public Iterable<Path> addPath(@PathVariable int pId, @PathVariable String pTipoVia, @PathVariable String pStrOrKr, @PathVariable int pNumber, @PathVariable int pTraffic) {
-		if(pathService.addPath(pId, pTipoVia, pStrOrKr, pNumber, pTraffic)) { 
+	@PostMapping(value = "/addPath", consumes = {
+			MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE
+	})
+	public Iterable<Path> addPath(@RequestBody Path pathData) {
+		if(pathService.addPath(pathData.getId(), pathData.getType(), pathData.getIsStreetOrKr(), pathData.getNumber(), pathData.getTraffic())) { 
 			return pathService.findAllPaths(); 
 		}
 		return pathService.findAllPaths();
 	}
 	
-	@RequestMapping(value = "/editPath/{pId},{pTipoVia},{pStrOrKr},{pNumber},{pTraffic}", method = RequestMethod.POST)
-	public Path editPath(@PathVariable int pId, @PathVariable String pTipoVia, @PathVariable String pStrOrKr, @PathVariable int pNumber, @PathVariable int pTraffic) {
-		pathService.editPath(pId, pTipoVia, pStrOrKr, pNumber, pTraffic);
-		return pathService.findPathById(pId);
+	@PutMapping(value = "/editPath", consumes = {
+			MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE
+	})
+	public Path editPath(@RequestBody Path pathData) {
+		pathService.editPath(pathData.getId(), pathData.getType(), pathData.getIsStreetOrKr(), pathData.getNumber(), pathData.getTraffic());
+		return pathService.findPathById(pathData.getId());
 	}
 	
 	@RequestMapping(value = "/deletePath/{pId}", method = RequestMethod.GET)

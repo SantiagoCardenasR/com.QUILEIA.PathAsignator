@@ -1,14 +1,22 @@
 package com.QUILEIA.app;
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.QUILEIA.app.model.Officer;
 import com.QUILEIA.app.services.OfficerService;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class ServiceOfficerController {
 	public static final String BASE_URL = "/officers";
@@ -26,22 +34,31 @@ public class ServiceOfficerController {
 		return officersService.findAllOfficers();
 	}
 	
-	@RequestMapping(value = "/addOfficer/{pId},{pName},{pLastName},{pYoex},{pTsc},{pIdPath}", method = RequestMethod.POST)
-	public Iterable<Officer> addOfficer(@PathVariable String pId, @PathVariable String pName,  @PathVariable String pLastName, @PathVariable int pYoex, @PathVariable String pTsc, @PathVariable int pIdPath) {
-		if(officersService.addOfficer(pId, pName, pLastName, pYoex, pTsc, pIdPath)) {
-			return officersService.findAllOfficers();
+	@PostMapping(value = "/addOfficer", consumes = {
+			MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE
+	})
+	public ResponseEntity<User> addOfficer(@RequestBody Officer officerDetails) {
+		if(officersService.addOfficer(officerDetails.getCode(), officerDetails.getName(), officerDetails.getLastName(), officerDetails.getYearsOfExperience(), officerDetails.getTransitSecretaryCode(), officerDetails.getActualPathId())) {
+			return new ResponseEntity<>(HttpStatus.CREATED);
 		}
-		return officersService.findAllOfficers();
+		return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
 	}
 	
-	@RequestMapping(value = "/editOfficer/{pId},{pName},{pLastName},{pYoex},{pTsc},{pIdPath}", method = RequestMethod.POST)
-	public Officer editOfficer(@PathVariable String pId, @PathVariable String pName, @PathVariable String pLastName , @PathVariable int pYoex, @PathVariable String pTsc, @PathVariable int pIdPath) {	
-		officersService.editOfficer(pId, pName, pLastName, pYoex, pTsc, pIdPath);
-		return officersService.findOfficerById(pId);
+	@PutMapping(value = "/editOfficer", consumes = {
+			MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE
+	})
+	public  Officer editOfficer(@RequestBody Officer officerDetails) {
+		if(officersService.editOfficer(officerDetails.getCode(), officerDetails.getName(), officerDetails.getLastName(), officerDetails.getYearsOfExperience(), officerDetails.getTransitSecretaryCode(), officerDetails.getActualPathId())) {
+			return officersService.findOfficerById(officerDetails.getCode());
+		} else {
+			return null;
+		}
 	}
 	
-	@RequestMapping(value = "/deleteOfficer/{pId}", method = RequestMethod.GET)
-	public Iterable<Officer> deleteOfficer(@PathVariable String pId) {
+	@PostMapping(value = "/deleteOfficer/")
+	public Iterable<Officer> deleteOfficer(@RequestBody String pId) {
 		officersService.deleteOfficer(pId);
 		return officersService.findAllOfficers();
 	}

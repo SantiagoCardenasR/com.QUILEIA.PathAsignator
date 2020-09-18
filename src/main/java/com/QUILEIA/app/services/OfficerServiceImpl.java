@@ -56,7 +56,8 @@ public class OfficerServiceImpl implements OfficerService {
 	}
 
 	@Override
-	public void editOfficer(String pId, String pName, String pLastName, int pYoex, String pTsc, int pIdPath) {
+	public boolean editOfficer(String pId, String pName, String pLastName, int pYoex, String pTsc, int pIdPath) {
+		boolean response = false;
 		Iterable<OfficerRecord> officerRecords = officersRecordsRepo.findAll();
 		officerRecords.forEach(new Consumer<OfficerRecord> () {
 			@Override
@@ -74,24 +75,29 @@ public class OfficerServiceImpl implements OfficerService {
 		});
 		
 		Officer actualOfficer = officersRepo.findById(pId).get();
-		int changes = actualOfficer.getAssignations();
-		
-		if(changes < 3) {
-			Officer officerToUpdate = officersRepo.findById(pId).get();
-			officerToUpdate.setName(pName);
-			officerToUpdate.setLastName(pLastName);
-			officerToUpdate.setYearsOfExperience(pYoex);
-			officerToUpdate.setTransitSecretaryCode(pTsc);
-			officerToUpdate.setActualPathId(pIdPath);
+		if(actualOfficer != null)
+		{
+			int changes = actualOfficer.getAssignations();
 			
-			Path actualPath = pathsRepo.findById(officerToUpdate.getActualPathId()).get();
-			String actualPathName = actualPath.getIsStreetOrKr() + actualPath.getNumber();
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-			LocalDateTime now = LocalDateTime.now(); 
-			OfficerRecord newRecord = new OfficerRecord(officerToUpdate.getName(),actualPathName,dtf.format(now),officerToUpdate.getCode(),actualPath.getId());
-			officersRecordsRepo.save(newRecord);
-			officersRepo.save(officerToUpdate);
+			if(changes < 3) {
+				Officer officerToUpdate = officersRepo.findById(pId).get();
+				officerToUpdate.setName(pName);
+				officerToUpdate.setLastName(pLastName);
+				officerToUpdate.setYearsOfExperience(pYoex);
+				officerToUpdate.setTransitSecretaryCode(pTsc);
+				officerToUpdate.setActualPathId(pIdPath);
+				
+				Path actualPath = pathsRepo.findById(officerToUpdate.getActualPathId()).get();
+				String actualPathName = actualPath.getIsStreetOrKr() + actualPath.getNumber();
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+				LocalDateTime now = LocalDateTime.now(); 
+				OfficerRecord newRecord = new OfficerRecord(officerToUpdate.getName(),actualPathName,dtf.format(now),officerToUpdate.getCode(),actualPath.getId());
+				officersRecordsRepo.save(newRecord);
+				officersRepo.save(officerToUpdate);
+				response = true;
+			} 
 		}
+		return response;
 	}
 
 	@Override
