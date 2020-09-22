@@ -57,7 +57,7 @@ public class OfficerServiceImpl implements OfficerService {
 
 	@Override
 	public boolean editOfficer(String pId, String pName, String pLastName, int pYoex, String pTsc, int pIdPath) {
-		boolean response = false;
+		boolean response = true;
 		Iterable<OfficerRecord> officerRecords = officersRecordsRepo.findAll();
 		officerRecords.forEach(new Consumer<OfficerRecord> () {
 			@Override
@@ -80,20 +80,19 @@ public class OfficerServiceImpl implements OfficerService {
 			int changes = actualOfficer.getAssignations();
 			
 			if(changes < 3) {
-				Officer officerToUpdate = officersRepo.findById(pId).get();
-				officerToUpdate.setName(pName);
-				officerToUpdate.setLastName(pLastName);
-				officerToUpdate.setYearsOfExperience(pYoex);
-				officerToUpdate.setTransitSecretaryCode(pTsc);
-				officerToUpdate.setActualPathId(pIdPath);
+				actualOfficer.setName(pName);
+				actualOfficer.setLastName(pLastName);
+				actualOfficer.setYearsOfExperience(pYoex);
+				actualOfficer.setTransitSecretaryCode(pTsc);
+				actualOfficer.setActualPathId(pIdPath);
 				
-				Path actualPath = pathsRepo.findById(officerToUpdate.getActualPathId()).get();
+				Path actualPath = pathsRepo.findById(actualOfficer.getActualPathId()).get();
 				String actualPathName = actualPath.getIsStreetOrKr() + actualPath.getNumber();
 				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 				LocalDateTime now = LocalDateTime.now(); 
-				OfficerRecord newRecord = new OfficerRecord(officerToUpdate.getName(),actualPathName,dtf.format(now),officerToUpdate.getCode(),actualPath.getId());
+				OfficerRecord newRecord = new OfficerRecord(actualOfficer.getName(),actualPathName,dtf.format(now),actualOfficer.getCode(),actualPath.getId());
 				officersRecordsRepo.save(newRecord);
-				officersRepo.save(officerToUpdate);
+				officersRepo.save(actualOfficer);
 				response = true;
 			} 
 		}

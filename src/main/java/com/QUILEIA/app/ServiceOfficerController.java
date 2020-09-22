@@ -1,6 +1,5 @@
 package com.QUILEIA.app;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.QUILEIA.app.model.Officer;
+import com.QUILEIA.app.model.OfficerPOJO;
 import com.QUILEIA.app.services.OfficerService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -38,9 +38,9 @@ public class ServiceOfficerController {
 			MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_VALUE
 	})
-	public ResponseEntity<User> addOfficer(@RequestBody Officer officerDetails) {
+	public ResponseEntity<Iterable<Officer>> addOfficer(@RequestBody OfficerPOJO officerDetails) {
 		if(officersService.addOfficer(officerDetails.getCode(), officerDetails.getName(), officerDetails.getLastName(), officerDetails.getYearsOfExperience(), officerDetails.getTransitSecretaryCode(), officerDetails.getActualPathId())) {
-			return new ResponseEntity<>(HttpStatus.CREATED);
+			return new ResponseEntity<Iterable<Officer>>(officersService.findAllOfficers(), HttpStatus.CREATED);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
 	}
@@ -49,18 +49,18 @@ public class ServiceOfficerController {
 			MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_VALUE
 	})
-	public  Officer editOfficer(@RequestBody Officer officerDetails) {
-		if(officersService.editOfficer(officerDetails.getCode(), officerDetails.getName(), officerDetails.getLastName(), officerDetails.getYearsOfExperience(), officerDetails.getTransitSecretaryCode(), officerDetails.getActualPathId())) {
-			return officersService.findOfficerById(officerDetails.getCode());
+	public  ResponseEntity<Iterable<Officer>> editOfficer(@RequestBody OfficerPOJO officerDetails) {
+		if(officersService.editOfficer(officerDetails.getCode(), officerDetails.getName(), officerDetails.getLastName(), officerDetails.getYearsOfExperience(), officerDetails.getTransitSecretaryCode(), officerDetails.getActualPathId()) == true) {
+			return new ResponseEntity<Iterable<Officer>>(officersService.findAllOfficers(), HttpStatus.ACCEPTED);
 		} else {
-			return null;
+			return new ResponseEntity<Iterable<Officer>>(officersService.findAllOfficers(), HttpStatus.BAD_GATEWAY);
 		}
 	}
 	
-	@PostMapping(value = "/deleteOfficer/")
-	public Iterable<Officer> deleteOfficer(@RequestBody String pId) {
+	@DeleteMapping(value = "/deleteOfficer/{pId}")
+	public ResponseEntity<Iterable<Officer>> deleteOfficer(@PathVariable String pId) {
 		officersService.deleteOfficer(pId);
-		return officersService.findAllOfficers();
+		return new ResponseEntity<Iterable<Officer>>(officersService.findAllOfficers(), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = BASE_URL + "/{id}")

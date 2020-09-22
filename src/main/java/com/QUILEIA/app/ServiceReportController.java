@@ -1,16 +1,16 @@
 package com.QUILEIA.app;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import com.QUILEIA.app.model.OfficerRecord;
 import com.QUILEIA.app.services.ReportService;
 
 @CrossOrigin(origins = "http://localhost:4200")
-@Controller
+@RestController
 public class ServiceReportController {
 	private final ReportService reportService;
 	
@@ -20,13 +20,13 @@ public class ServiceReportController {
 	}
 	
 	//Search Reports
-		@PostMapping(value = "/officerReport")
-		public ArrayList<OfficerRecord> searchOfficerReport(@RequestBody String pId) {
+		@PostMapping(value = "/officerReport/{pId}")
+		public ArrayList<OfficerRecord> searchOfficerReport(@PathVariable String pId) {
 			return reportService.searchOfficerReport(pId);
 		}
 		
-		@PostMapping(value = "/pathReport")
-		public ArrayList<OfficerRecord> searchPathReport(@RequestBody int pId) {
+		@PostMapping(value = "/pathReport/{pId}")
+		public ArrayList<OfficerRecord> searchPathReport(@PathVariable int pId) {
 			return reportService.searchPathReport(pId);
 		}
 }

@@ -2,7 +2,6 @@ package com.QUILEIA.app;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,7 +20,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
 import com.QUILEIA.app.model.Officer;
-import com.QUILEIA.app.services.OfficerService;
 
 import net.minidev.json.JSONObject;
 
@@ -37,9 +34,7 @@ class ServiceOfficerControllerTest {
 	
 	
 	@Test
-
 	@Sql("./officers_insert.sql")
-
 	@Sql(scripts = "./officers_delete.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
 	void getOfficersTest() {
 		Iterable<Map<String, Object>> expectedOfficers = jdbcTemplate.queryForList(
@@ -50,10 +45,9 @@ class ServiceOfficerControllerTest {
 	}
 
 	@Test
-
 	@Sql("./officers_delete.sql")
-
-	@Sql(scripts = "./officers_delete.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
+	@Sql("./paths_insert.sql")
+	@Sql(scripts = {"./officers_delete.sql", "./paths_delete.sql"}, executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
 	void addOfficerTest() {
 		String url = "http://localhost:8081/addOfficer";
 		HttpHeaders headers = new HttpHeaders();
@@ -66,13 +60,12 @@ class ServiceOfficerControllerTest {
 		OfficerObject.put("transitSecretaryCode", "ATS091283764");
 		OfficerObject.put("actualPathId", 0);
 		HttpEntity<String> entity = new HttpEntity<>(OfficerObject.toJSONString(), headers);
-		Iterable<Officer> officers = restTemplate.postForObject(url, entity, Iterable.class);
+		ResponseEntity<Iterable> officer = restTemplate.exchange(url, HttpMethod.POST, entity, Iterable.class);
 		Iterable<Map<String, Object>> expectedOfficers = jdbcTemplate.queryForList(
 				"SELECT cod_officer AS code, name, last_name AS lastName, years_of_experience AS yearsOfExperience, transit_secretary_code AS transitSecretaryCode, actual_path_id AS actualPathId, assignations FROM officer");
-		assertIterableEquals(expectedOfficers, officers);
+		assertEquals(expectedOfficers, officer.getBody());
 	}
-	 
-
+	
 	@Test
 	@Sql("./officers_insert.sql")
 	@Sql(scripts = "./officers_delete.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
@@ -81,37 +74,29 @@ class ServiceOfficerControllerTest {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		JSONObject OfficerObject = new JSONObject();
-		OfficerObject.put("code", "3");
+		OfficerObject.put("code", "0");
 		OfficerObject.put("name", "Francis");
 		OfficerObject.put("lastName", "Jupiter");
 		OfficerObject.put("yearsOfExperience", 12);
 		OfficerObject.put("transitSecretaryCode", "ATS6565485645");
 		OfficerObject.put("actualPathId", 0);
 		HttpEntity<String> entity = new HttpEntity<>(OfficerObject.toJSONString(), headers);
-		ResponseEntity<Officer> officer = restTemplate.exchange(url, HttpMethod.PUT, entity, Officer.class);
-		Iterable<Map<String, Object>> expectedOfficer = jdbcTemplate.queryForList("SELECT cod_officer AS code, name, last_name AS lastName, years_of_experience AS yearsOfExperience, transit_secretary_code AS transitSecretaryCode, actual_path_id AS actualPathId, assignations FROM officer WHERE cod_officer = 3");
-		System.out.println(expectedOfficer);
-		assertEquals(expectedOfficer, officer);
+		ResponseEntity<Iterable> officer = restTemplate.exchange(url, HttpMethod.PUT, entity, Iterable.class);
+		Iterable<Map<String, Object>> expectedOfficer = jdbcTemplate.queryForList("SELECT cod_officer AS code, name, last_name AS lastName, years_of_experience AS yearsOfExperience, transit_secretary_code AS transitSecretaryCode, actual_path_id AS actualPathId, assignations FROM officer");
+		assertEquals(expectedOfficer, officer.getBody());
 	}
 	
-	
-	
 	@Test
-
 	@Sql("./officers_insert.sql")
-
 	@Sql(scripts = "./officers_delete.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
 	void deleteOfficerTest() {
-		String url = "http://localhost:8081/deleteOfficer";
+		String url = "http://localhost:8081/deleteOfficer/0";
 		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		JSONObject OfficerObject = new JSONObject();
-		OfficerObject.put("code", "0");
-		HttpEntity<String> entity = new HttpEntity<>(OfficerObject.toJSONString(), headers);
-		Iterable<Officer> officers = restTemplate.postForObject(url, entity, Iterable.class);
+		HttpEntity<String> entity = new HttpEntity<>(headers);
+		ResponseEntity<Iterable>  officers = restTemplate.exchange(url, HttpMethod.DELETE, entity, Iterable.class);
 		Iterable<Map<String, Object>> expectedOfficers = jdbcTemplate.queryForList(
 				"SELECT cod_officer AS code, name, last_name AS lastName, years_of_experience AS yearsOfExperience, transit_secretary_code AS transitSecretaryCode, actual_path_id AS actualPathId, assignations FROM officer");
-		assertIterableEquals(expectedOfficers, officers);
+		assertEquals(expectedOfficers, officers.getBody());
 	}
 	 
 	 
